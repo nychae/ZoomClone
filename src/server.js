@@ -16,4 +16,18 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`);
 const server = http.createServer(app);
 const wss = new WebSocket.Server({server});
 
+const sockets = [];
+wss.on('connection', (socket) => {
+    // socket - 연결된 브라우저
+    console.log('Connected to Browser ✅');
+    sockets.push(socket);
+
+    socket.on('close', () => console.log('Disconnected from the Browser ❌'));
+    socket.on('message', (message) => {
+        sockets.forEach((socket) => {
+            socket.send(message.toString('UTF-8'))
+        })
+    })
+});
+
 server.listen(3000, handleListen);
