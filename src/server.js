@@ -20,13 +20,25 @@ const sockets = [];
 wss.on('connection', (socket) => {
     // socket - 연결된 브라우저
     console.log('Connected to Browser ✅');
+    socket['nickname'] = 'Anonymous';
     sockets.push(socket);
 
     socket.on('close', () => console.log('Disconnected from the Browser ❌'));
-    socket.on('message', (message) => {
-        sockets.forEach((socket) => {
-            socket.send(message.toString('UTF-8'))
-        })
+    socket.on('message', (msg) => {
+        const message = JSON.parse(msg);
+
+        switch (message.type) {
+            case 'new_message': {
+                sockets.forEach((aSocket) => {
+                    aSocket.send(`${socket.nickname}: ${message.payload}`);
+                })
+                break;
+            }
+            case 'nickname': {
+                socket['nickname'] = message.payload;
+                break;
+            }
+        }
     })
 });
 
