@@ -48,3 +48,14 @@ socket.on('welcome', (user) => addMessage(`${user} joined!`));
 socket.on('bye', (left) => addMessage(`${left} left 🥲`));
 
 socket.on('new_message', (msg) => addMessage(msg));
+
+socket.on('room_change', (rooms) => {
+    const roomList = welcome.querySelector('ul');
+    roomList.innerHTML = '';
+
+    rooms.forEach((room) => {
+        const li = document.createElement('li');
+        li.innerText = room;
+        roomList.appendChild(li);
+    })
+});
