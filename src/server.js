@@ -1,6 +1,7 @@
 import http from "http";
 import {Server} from "socket.io";
 import express from "express";
+import {instrument} from "@socket.io/admin-ui";
 
 const app = express();
 
@@ -14,7 +15,15 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`);
 // http서버와 websocket서버 같이 작동하게 함
 // http 서버 위에 websocket 서버를 만들어 같은 포트를 공유함
 const httpServer = http.createServer(app);
-const wsServer = new Server(httpServer);
+const wsServer = new Server(httpServer, {
+    cors: {
+        origin: ['http://admin.socket.io'],
+        credentials: true,
+    }
+});
+instrument(wsServer, {
+    auth: false,
+});
 
 const publicRooms = () => {
     const {
