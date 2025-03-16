@@ -3,13 +3,17 @@ import {Server} from "socket.io";
 import express from "express";
 import {instrument} from "@socket.io/admin-ui";
 
+const path = require('path');
 const app = express();
 
-app.set('view engine', 'pug');
 app.set('views', __dirname + "/views");
 app.use('/public', express.static(__dirname + "/public"));
-app.get("/", (req, res) => res.render("home"))
-app.get("/chat", (req, res) => res.render("chat"))
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'home.html'));
+})
+app.get("/chat", (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'chat.html'));
+})
 app.get("/*", (req, res) => res.redirect("/"))
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
 
