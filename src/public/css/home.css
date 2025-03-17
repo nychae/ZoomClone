@@ -1,0 +1,145 @@
+main {
+    display: flex;
+    padding: 100px 1rem 1rem;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#userInfo {
+    background: #FFFFFF;
+    width: 100%;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 15px;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 6px 24px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
+}
+
+#userInfo form {
+    display: flex;
+    width: 90%;
+    flex-direction:column;
+}
+
+#userInfo form div {
+    display: flex;
+}
+
+#userInfo form input {
+    width: 85%;
+    height: 25px;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    border-radius: .5rem 0 0 .5rem;
+    border: none;
+    background: #F4F4F4;
+}
+
+#userInfo form input::placeholder {
+    opacity: 0.5;
+    font-size: 13px;
+}
+
+#userInfo form input.error {
+    background: #d6455020;
+}
+
+#userInfo form button {
+    width: 15%;
+    border-radius: 0 .5rem .5rem 0;
+    border: none;
+    background: #95B1EE;
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+#userInfo form button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+#userInfo form span#alert {
+    font-size: 13px;
+    color: #d64550;
+}
+
+.iconWrapper {
+    background: #FFFDF5;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px, rgba(0, 0, 0, 0) 0px 1px 2px;
+}
+
+.iconWrapper > svg {
+    width: 100px;
+    height: 70px;
+    color: #95B1EE;
+}
+
+
+#menu {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+#menu > .item {
+    width: 100%;
+    margin: .8rem 0;
+    border-radius: .5rem;
+    padding: 1.5rem;
+    display: flex;
+    gap: 50px;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.1) 1.95px 1.95px 2.6px;
+}
+
+
+#menu > .item:hover{
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+#menu > .item > .icon {
+    text-align: right;
+}
+
+#menu > .item > .icon > svg {
+    width: 24px;
+    height: 24px;
+}
+
+#menu > .item > .txt {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+#chat {
+    background: #FFFDF5;
+    color: #364C84;
+}
+
+#chat svg {
+    color: #364C84;
+}
+
+#video {
+    background: #95B1EE;
+    color: #FFFDF5;
+}
+
+#video svg {
+    color: #FFFDF5;
+
+}
+

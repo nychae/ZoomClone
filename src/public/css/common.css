@@ -1,0 +1,53 @@
+
+html {
+    overflow-y: hidden;
+}
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header {
+    font-weight: 800;
+    font-size: 3.5rem;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* Mobile - Landscape */
+@media (min-width: 576px) {
+    main {
+        width: 100vw;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    main {
+        width: 100vw;
+    }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+    main {
+        width: 40vw;
+    }
+}
+
+/* Desktop (Large) */
+@media (min-width: 1200px) {
+    width: 40vw;
+}
+
+
+main {
+    height: 100vh;
+}
+
+.hidden {
+    display: none;
+}

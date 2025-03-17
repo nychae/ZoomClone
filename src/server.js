@@ -5,6 +5,8 @@ import {instrument} from "@socket.io/admin-ui";
 
 const path = require('path');
 const app = express();
+const userList = {};
+let socketId;
 
 app.set('views', __dirname + "/views");
 app.use('/public', express.static(__dirname + "/public"));
@@ -14,7 +16,19 @@ app.get("/", (req, res) => {
 app.get("/chat", (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'chat.html'));
 })
+app.get("/video", (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'video.html'));
+})
+
+app.get('/get-user', (req, res) => {
+    console.log(userList[socketId]);
+    return res.json({ name: userList[socketId]});
+})
 app.get("/*", (req, res) => res.redirect("/"))
+
+
+
+
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
 
 // http서버와 websocket서버 같이 작동하게 함
@@ -55,7 +69,7 @@ const countRoom = (roomName) => {
 }
 
 wsServer.on('connection', socket => {
-
+    socketId = socket.id;
     socket.onAny((event) => {
         console.log(`Socket Event: ${event}`);
     })
@@ -107,6 +121,19 @@ wsServer.on('connection', socket => {
 
     socket.on('ice', (ice, roomName) => {
         socket.to(roomName).emit('ice', ice);
+    })
+
+
+
+
+
+    socket.on('save_user', (nickName, done) => {
+       userList[socket.id] = nickName;
+       done();
+    })
+
+    socket.on('check_user', () => {
+        socket.emit('get_user', userList[socket.id]);
     })
 })
 
