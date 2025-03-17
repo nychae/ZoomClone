@@ -1,0 +1,172 @@
+#roomList {
+    background: #FFFFFF;
+    width: 100%;
+    min-height: 70%;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 6px 24px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
+}
+
+#roomList > .header {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+    width: 100%;
+    font-weight: 700;
+    font-size: 1.8rem;
+    background: #95B1EE;
+    color: #FFFDF5;
+    padding: .5rem 0 .5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#roomList > .header > span{
+    margin-left: .5rem;
+}
+
+#roomList > .header > .icon {
+    margin-right: .5rem;
+    display: flex;
+    align-items: center;
+}
+
+#roomList > .header > .icon > svg {
+    width: 30px;
+    height: 30px;
+}
+
+#roomList > .header > .icon > svg:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+#roomList > .listWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    gap: 10px;
+    max-height: 504px;
+    overflow-y: scroll;
+}
+
+#roomList > .listWrapper > .room {
+    border-radius: .5rem;
+    width: 90%;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    flex: 0 0 auto;
+}
+
+#roomList > .listWrapper > .room:hover {
+    cursor: pointer;
+    border-color: #95B1EE70;
+}
+
+#roomList > .listWrapper > .room > .header {
+    height: 100%;
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+#roomList > .listWrapper > .room > .header > .line {
+    height: 100%;
+    width: 5px;
+    background: #95B1EE;
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+}
+
+#roomList > .listWrapper > .room > .header > .icon {
+    color: #95B1EE;
+}
+
+#roomList > .listWrapper > .room > .header > .icon > svg {
+    width: 30px;
+    height: 30px;
+}
+
+#roomList > .listWrapper > .room > .count {
+    padding: .3rem .5rem;
+    margin-right: .5rem;
+    border-radius: .5rem;
+    background: #95B1EE20;
+    font-size: 12px;
+}
+
+.dim {
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    background: #00000080;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dim:hover {
+    cursor: pointer;
+}
+
+#addRoomPopup {
+    background: #FFFFFF;
+    border-radius: .5rem;
+    width: 400px;
+}
+
+#addRoomPopup:hover {
+    cursor: default;
+}
+
+#addRoomPopup > .header {
+    padding: .5rem;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #364C84;
+}
+
+#addRoomPopup > .body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 1rem;
+}
+
+#addRoomPopup > .body > input {
+    height: 25px;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    border-radius: .5rem;
+    border: none;
+    background: #F4F4F4;
+}
+
+#addRoomPopup > .footer > button {
+    width: 100%;
+    height: 55px;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    border: none;
+    font-weight: 700;
+    font-size: 1.5rem;
+    background: #364C84;
+    color: #FFFDF5;
+}
+
+#addRoomPopup > .footer > button:hover {
+    cursor: pointer;
+}
+
