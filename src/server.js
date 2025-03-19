@@ -3,6 +3,9 @@ import {Server} from "socket.io";
 import express from "express";
 import {instrument} from "@socket.io/admin-ui";
 
+const {chatHandler, chatRouter}  = require('./chat');  // 🔹 채팅 이벤트 핸들러
+const {videoHandler, videoRouter} = require('./video');
+
 const path = require('path');
 const app = express();
 const userList = {};
@@ -10,6 +13,8 @@ let socketId;
 
 app.set('views', __dirname + "/views");
 app.use('/public', express.static(__dirname + "/public"));
+app.use('/chatting', chatRouter);
+app.use('/video-call', videoRouter);
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'home.html'));
 })
@@ -45,87 +50,14 @@ instrument(wsServer, {
 });
 
 
-
-
-const publicRooms = () => {
-    const {
-        sockets: {
-            adapter: {sids, rooms}
-        }
-    } = wsServer;
-
-    const publicRooms = [];
-    rooms.forEach((_, key) => {
-        if(sids.get(key) === undefined) {
-            publicRooms.push(key);
-        }
-    })
-
-    return publicRooms;
-}
-
-const countRoom = (roomName) => {
-    return wsServer.sockets.adapter.rooms.get(roomName)?.size;
-}
-
 wsServer.on('connection', socket => {
     socketId = socket.id;
     socket.onAny((event) => {
         console.log(`Socket Event: ${event}`);
     })
 
-    /*
-    * Chat
-    * */
-    socket.on('enter_room', (roomName, nickName, done) => {
-        socket['nickname'] = nickName;
-        socket.join(roomName);
-        const userCount = countRoom(roomName);
-        done(userCount);
-        socket.to(roomName).emit('welcome', nickName, userCount);
-        wsServer.sockets.emit('room_change', publicRooms());
-    })
-
-    socket.on('disconnecting', () => {
-        socket.rooms.forEach((room) => socket.to(room).emit('bye', socket.nickname, countRoom(room) - 1));
-    })
-
-    socket.on('disconnect', () => {
-        wsServer.sockets.emit('room_change', publicRooms());
-
-    })
-
-    socket.on('new_message', (message, roomName, done) => {
-        socket.to(roomName).emit("new_message", `${socket.nickname}: ${message}`);
-        done();
-    })
-
-    /********************************************************************************************/
-
-
-    /*
-    * Video
-    * */
-    socket.on('join_room', (roomName) => {
-        socket.join(roomName);
-        socket.to(roomName).emit('welcome_video');
-    })
-
-    socket.on('offer', (offer, roomName) => {
-        socket.to(roomName).emit('offer', offer);
-    });
-
-    socket.on('answer', (answer, roomName) => {
-        socket.to(roomName).emit('answer', answer);
-    })
-
-    socket.on('ice', (ice, roomName) => {
-        socket.to(roomName).emit('ice', ice);
-    })
-
-
-
-
+    chatHandler(wsServer, socket);
+    videoHandler(wsServer, socket);
 
     socket.on('save_user', (nickName, done) => {
        userList[socket.id] = nickName;
@@ -133,6 +65,7 @@ wsServer.on('connection', socket => {
     })
 
     socket.on('check_user', () => {
+        console.log(`userName: ${userList[socket.id]}`);
         socket.emit('get_user', userList[socket.id]);
     })
 })
