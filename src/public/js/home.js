@@ -1,3 +1,5 @@
+axios.defaults.withCredentials = true;
+axios.defaults.headers["Content-Type"] = "application/json";
 const socket = io();
 
 window.addEventListener("pageshow", (event) => {
@@ -22,7 +24,9 @@ const emptyInput = (isEmpty = true) => {
 }
 
 const getUserName = () => {
-    socket.emit('check_user');
+    axios.get('/get-name').then((res) => {
+        isSavedName = !!res.data.userName;
+    })
 }
 userNameForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -32,10 +36,10 @@ userNameForm.addEventListener('submit', (event) => {
         return;
     }
 
-    socket.emit('save_user', input.value, () => {
+    axios.post('/register-name', { userName: input.value }).then((res) => {
         emptyInput(false);
         isSavedName = true;
-    });
+    })
 })
 
 document.querySelectorAll('#menu > .item').forEach((menu) => {
@@ -51,10 +55,4 @@ document.querySelectorAll('#menu > .item').forEach((menu) => {
     })
 })
 
-
-
-socket.on('get_user', (userName) => {
-    console.log(userName);
-    isSavedName = !!userName;
-})
 
