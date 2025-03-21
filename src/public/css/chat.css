@@ -156,6 +156,12 @@
     align-self: flex-end;
 }
 
+#messaging > .conversation > .div.welcomeMsg {
+    align-self: center;
+    text-align: center;
+    color: #4A4A4A;
+}
+
 #messaging > .footer {
     width: 100%;
     display: flex;
