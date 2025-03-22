@@ -10,10 +10,24 @@ const {videoHandler, videoRouter} = require('./video');
 
 const path = require('path');
 const app = express();
-let socketId;
+
+
+// http서버와 websocket서버 같이 작동하게 함
+// http 서버 위에 websocket 서버를 만들어 같은 포트를 공유함
+const httpServer = http.createServer(app);
+const wsServer = new Server(httpServer, {
+    cors: {
+        origin: ['http://admin.socket.io'],
+        credentials: true,
+    }
+});
+instrument(wsServer, {
+    auth: false,
+});
 
 app.set('views', __dirname + "/views");
-app.use(session({
+
+const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
@@ -21,7 +35,9 @@ app.use(session({
         httpOnly: true,
         secure: false,
         maxAge: 60 * 60 * 60 * 1000 }
-}));
+});
+
+app.use(sessionMiddleware);
 
 app.use(express.json());  // JSON 요청 바디를 파싱
 app.use(express.urlencoded({ extended: true }));
@@ -44,7 +60,6 @@ app.post('/register-name', (req, res) => {
         return res.status(400);
     }
     req.session.username = userName;
-
     res.send('Name registered');
 })
 
@@ -67,18 +82,6 @@ app.get("/*", (req, res) => res.redirect("/"))
 
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
 
-// http서버와 websocket서버 같이 작동하게 함
-// http 서버 위에 websocket 서버를 만들어 같은 포트를 공유함
-const httpServer = http.createServer(app);
-const wsServer = new Server(httpServer, {
-    cors: {
-        origin: ['http://admin.socket.io'],
-        credentials: true,
-    }
-});
-instrument(wsServer, {
-    auth: false,
-});
 
 
 wsServer.on('connection', socket => {

@@ -13,89 +13,16 @@ const init = async() => {
     initRoomList();
 }
 
-// const welcome = document.getElementById('welcome');
-// const form = welcome.querySelector('form');
-// const room = document.getElementById('room');
-//
-// room.hidden = true;
-// let roomName;
-
-// const addMessage = (msg) => {
-//     const ul = room.querySelector('ul');
-//     const li = document.createElement('li');
-//     li.innerText = msg;
-//     ul.appendChild(li);
-// }
-//
-// const handleMessageSubmit = (event) => {
-//     event.preventDefault();
-//     const input = room.querySelector('#msg input');
-//     const value = input.value;
-//     socket.emit('new_message', input.value, roomName, () => addMessage(`You: ${value}`));
-//     input.value = '';
-// }
-//
-// const setRoomName = (roomName, userCount) => {
-//     const h3 = room.querySelector('h3');
-//     h3.innerText = `Room ${roomName} (${userCount})`;
-// }
-//
-// const showRoom = (userCount) => {
-//     welcome.hidden = true;
-//     room.hidden = false;
-//     setRoomName(roomName, userCount);
-//     const msgForm = room.querySelector('form#msg');
-//     msgForm.addEventListener('submit', handleMessageSubmit);
-// }
-//
-// const handleRoomSubmit = (event) => {
-//     event.preventDefault();
-//     const roomNameInput = form.querySelector('input#roomName');
-//     const nickNameInput = form.querySelector('input#nickName');
-//     socket.emit('enter_room', roomNameInput.value, nickNameInput.value, showRoom);
-//     roomName = roomNameInput.value;
-//     roomNameInput.value = '';
-//     nickNameInput.value = '';
-// }
-//
-// form.addEventListener('submit', handleRoomSubmit);
-//
-// socket.on('welcome', (user, userCount) => {
-//     setRoomName(roomName, userCount);
-//     addMessage(`${user} joined!`);
-// });
-//
-// socket.on('bye', (left, userCount) => {
-//     setRoomName(roomName, userCount);
-//     addMessage(`${left} left 🥲`);
-// });
-//
-// socket.on('new_message', (msg) => addMessage(msg));
-//
-// socket.on('room_change', (rooms) => {
-//     const roomList = welcome.querySelector('ul');
-//     roomList.innerHTML = '';
-//
-//     rooms.forEach((room) => {
-//         const li = document.createElement('li');
-//         li.innerText = room;
-//         roomList.appendChild(li);
-//     })
-// });
-
-
-
-/////////////////////////////////////////////
 const initAddPopup = () => {
     document.querySelector('#addRoomPopup input[type=text]').value = '';
     document.querySelector('#addRoomPopup input[type=number]').value = 2;
 }
 
-const welcomeMsg = (userName) => {
-    const welcomeMsg = document.createElement('div');
-    welcomeMsg.classList.add('welcomeMsg');
-    welcomeMsg.innerText = `🎊 ${userName} joined! 🎊`;
-    messaging.querySelector('.conversation').appendChild(welcomeMsg);
+const noticeMsg = (type, userName) => {
+    const noticeMsg = document.createElement('div');
+    noticeMsg.classList.add('noticeMsg');
+    noticeMsg.innerText = type === 'welcome'? `🎉 ${userName} joined!`: `${userName} left 🥲`;
+    messaging.querySelector('.conversation').appendChild(noticeMsg);
 }
 
 const showChatRoom = (roomName) => {
@@ -143,12 +70,22 @@ messaging.querySelector('.header > .icon').addEventListener('click', (event) => 
     socket.emit('leave_room', messaging.querySelector('.header > .roomName').innerText, initRoomList);
 })
 
+messaging.querySelector('form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const input = event.currentTarget.querySelector('input');
+    const msg = input.value;
+    const roomName = messaging.querySelector('.roomName').innerText;
+
+    addMsg('my', msg);
+    socket.emit('new_message', roomName, userName, msg);
+    input.value = '';
+})
+
 const initRoomList = () => {
     messaging.classList.add('hidden');
     roomList.classList.remove('hidden');
 
     api.getRooms().then((res) => {
-        console.log(res);
         drawRooms(res.data);
     })
 }
@@ -182,13 +119,42 @@ const addRoom = (room) => {
     roomDiv.classList.add('room');
     roomDiv.dataset.roomName = room.roomName;
 
+    roomDiv.addEventListener('click', (event) => {
+        const {roomName} = event.currentTarget.dataset;
+        const current = event.currentTarget.querySelector('.current').innerText;
+        const total = event.currentTarget.querySelector('.total').innerText;
+
+        if(current === total) {
+            alert('현재 채팅방 정원이 가득 찼습니다. 😢 다른 방을 이용해주세요!');
+            return;
+        }
+
+        socket.emit('enter_room', roomName, userName, showChatRoom);
+    })
+
     document.querySelector('#roomList > .listWrapper').appendChild(roomDiv);
 }
 
-const addMsg = (type, msg) => {
+const addMsg = (type, msg, userName = null) => {
     const div = document.createElement('div');
     div.classList.add(type === 'my'? 'myMessage': 'other');
-    div.innerText = msg;
+
+    if(type === 'my') {
+        div.classList.add('myMessage');
+    } else {
+        div.classList.add('other');
+        const userNameSpan = document.createElement('span');
+        userNameSpan.classList.add('userName');
+        userNameSpan.innerText = userName;
+        div.appendChild(userNameSpan);
+    }
+
+    const msgSpan = document.createElement('span');
+    msgSpan.classList.add('msg');
+    msgSpan.innerText = msg;
+
+    div.appendChild(msgSpan);
+
     document.querySelector('.conversation').appendChild(div);
 
     const messagesContainer = document.querySelector('.conversation'); // 메시지 컨테이너 선택
@@ -197,7 +163,7 @@ const addMsg = (type, msg) => {
 }
 
 const api = {
-    'getRooms': () => {
+    getRooms: () => {
         return axios.get('/chatting/rooms');
     },
     getUserName: async () => {
@@ -207,15 +173,21 @@ const api = {
 
 
 socket.on('room_change', (rooms) => {
-    console.log(rooms);
     if(roomList.classList.contains('hidden')) return;
 
     drawRooms(rooms);
 });
 
 socket.on('welcome', (userName) => {
-    welcomeMsg(userName);
+    noticeMsg('welcome', userName);
 })
 
+socket.on('new_message', (userName, msg) => {
+    addMsg('other', msg, userName);
+})
+
+socket.on('bye', (userName) => {
+    noticeMsg('bye', userName)
+});
 
 init();
