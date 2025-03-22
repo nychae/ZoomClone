@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../public/css/common.css">
+    <link rel="stylesheet" href="../public/css/video.css">
     <title>Noom</title>
 </head>
 <body>
@@ -14,25 +15,58 @@
         <div id="title">Noom</div>
     </header>
     <main>
-
-        <div id="welcome">
-            <form>
-                <input type="text" placeholder="room name" required/>
-                <button>Enter Room</button>
-            </form>
-        </div>
-        <div id="call">
-            <div id="myStream">
-                <video id="myFace" autoplay playsinline width="400" height="400"></video>
-                <button id="mute">Mute</button>
-                <button id="camera">Turn Camera Off</button>
-                <select id="cameras"></select>
-                <video id="peerFace" autoplay playsinline width="400" height="400"></video>
+        <div id="roomList" class="">
+            <div class="header">
+                <span>VIDEO CALL ROOMs</span>
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                </div>
+            </div>
+            <div class="listWrapper">
+                <div class="room" data-room-name="test"><div class="header">
+                    <div class="line"></div>
+                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"/></svg></div>
+                </div>
+                    <div class="title">test</div>
+                    <div class="count">
+                        <span class="current">1</span>
+                        <span>/</span>
+                        <span class="total">2</span>
+                    </div>
+                </div>
             </div>
         </div>
+        <div id="videoCall" class="hidden">
+
+        </div>
+        <div class="dim hidden">
+            <div id="addRoomPopup">
+                <div class="body">
+                    <input type="text" id="roomName" name="roomName" placeholder="ROOM NAME"/>
+                </div>
+                <div class="footer">
+                    <button>ADD</button>
+                </div>
+            </div>
+        </div>
+<!--        <div id="welcome">-->
+<!--            <form>-->
+<!--                <input type="text" placeholder="room name" required/>-->
+<!--                <button>Enter Room</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div id="call">-->
+<!--            <div id="myStream">-->
+<!--                <video id="myFace" autoplay playsinline width="400" height="400"></video>-->
+<!--                <button id="mute">Mute</button>-->
+<!--                <button id="camera">Turn Camera Off</button>-->
+<!--                <select id="cameras"></select>-->
+<!--                <video id="peerFace" autoplay playsinline width="400" height="400"></video>-->
+<!--            </div>-->
+<!--        </div>-->
     </main>
 </div>
 </body>
 <script src="socket.io/socket.io.js"></script>
-<script src="../public/js/app.js"></script>
+<!--<script src="../public/js/app.js"></script>-->
 </html>
