@@ -8,8 +8,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
     box-shadow: rgba(0, 0, 0, 0.04) 0px 6px 24px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
+}
+
+#roomList {
+    gap: 15px;
+}
+
+#videoCall {
+    gap: 1rem;
+    padding: 1rem;
+    background: #4A4A4A;
 }
 
 #roomList > .header{
@@ -104,3 +113,192 @@
     background: #364C8420;
     font-size: 12px;
 }
+
+.videos {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.videos > div {
+    background: #FFFDF5;
+    width: 100%;
+    height: 50%;
+}
+
+.videos > div.myVideo {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+
+.videos > div.peerVideo {
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+}
+
+.videos > div.peerVideo {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4A4A4A;
+}
+
+#videoCall > .footer {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: .5rem;
+}
+
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+#videoCall > .footer > .cameraSelect {
+    width: 60%;
+    background: #FFFDF5;
+    height: 50px;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    font-size: 16px;
+    color: #4A4A4A;
+}
+
+#videoCall > .footer > .cameraSelect:hover {
+    cursor: pointer;
+}
+
+#videoCall > .footer > .cameraSelect:focus {
+    outline: none;
+}
+
+#videoCall > .footer > .btn {
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    background: #4A4A4A50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.9;
+    box-shadow: rgba(205, 205, 162, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+#videoCall > .footer > .btn:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+
+#videoCall > .footer > .btn.cameraOn {
+    background: #1F7D53;
+}
+
+#videoCall > .footer > .btn.mute {
+    background: #EAD196;
+}
+
+#videoCall > .footer > .btn.end {
+    background: #d64550;
+}
+
+#videoCall > .footer> .btn > svg {
+    color: #FFFDF5;
+    width: 40px;
+    height: 40px;
+}
+
+#videoCall > .footer > .btn.cameraOn > svg {
+    width: 35px;
+    height: 35px;
+}
+
+.dim {
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    background: #00000080;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dim:hover {
+    cursor: pointer;
+}
+
+#addRoomPopup {
+    background: #FFFFFF;
+    height: 170px;
+    border-radius: .5rem;
+    width: 400px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    display: flex;
+    flex-direction: column;
+}
+
+#addRoomPopup:hover {
+    cursor: default;
+}
+
+#addRoomPopup > .header {
+    padding: .5rem;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #364C84;
+}
+
+#addRoomPopup > .body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 1rem;
+    height: 80%;
+    justify-content: center;
+}
+
+#addRoomPopup > .body > input {
+    height: 25px;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    border-radius: .5rem;
+    border: none;
+    background: #F4F4F4;
+}
+
+#addRoomPopup > .body > span {
+    font-size: 12px;
+    position: relative;
+    top: -10px;
+    left: 5px;
+    color: #d64550;
+}
+
+#addRoomPopup > .footer > button {
+    width: 100%;
+    height: 55px;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    border: none;
+    font-weight: 700;
+    font-size: 1.5rem;
+    background: #364C84;
+    color: #FFFDF5;
+}
+
+#addRoomPopup > .footer > button:hover {
+    cursor: pointer;
+}
+
