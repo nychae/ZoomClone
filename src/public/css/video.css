@@ -147,6 +147,22 @@
     color: #4A4A4A;
 }
 
+.videos > div.myVideo > video {
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+    object-fit: cover;
+}
+
+.videos > div.peerVideo > video {
+    width: 100%;
+    height: 100%;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    object-fit: cover;
+}
+
 #videoCall > .footer {
     width: 100%;
     height: 10%;
@@ -300,5 +316,14 @@ select {
 
 #addRoomPopup > .footer > button:hover {
     cursor: pointer;
+}
+
+.empty {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4A4A4A;
 }
 

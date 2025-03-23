@@ -15,7 +15,9 @@ const publicRooms = (wsServer) => {
     rooms.forEach((_, key) => {
         if(sids.get(key) === undefined) {
             const room = chatRooms.get(key);
-            publicRooms.push(room);
+            if(room) {
+                publicRooms.push(room);
+            }
         }
     })
 
