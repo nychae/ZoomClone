@@ -83,8 +83,8 @@ videoCall.querySelector('.footer > .end').addEventListener('click', () => {
     myVideo.remove();
 })
 
-videoCall.querySelector('.cameraSelect').addEventListener('change', async () => {
-    await getMedia(camerasSelect.value);
+videoCall.querySelector('.cameraSelect').addEventListener('change', async (event) => {
+    await getMedia(event.currentTarget.value);
     if(myPeerConnection) {
         const videoTrack = myStream.getVideoTracks()[0];
         const videoSender = myPeerConnection.getSenders().find((sender) => sender.track.kind === 'video');
